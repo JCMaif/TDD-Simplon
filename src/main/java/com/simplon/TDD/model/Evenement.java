@@ -1,8 +1,7 @@
 package com.simplon.TDD.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
-import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -13,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,21 +24,28 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "event")
-public class Event {
+@Table(name = "evenement")
+public class Evenement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String title;
-    private String subject;
+
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur auteur;
+
+    private LocalDateTime dateHeureDebut;
+
+    private LocalDateTime dateHeureFin;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-     @JoinTable(
-            name = "event_utilisateur",
-            joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateur_id")
+    @JoinTable(
+        name = "evenement_utilisateur",
+        joinColumns = @JoinColumn(name = "evenement_id"),
+        inverseJoinColumns = @JoinColumn(name = "utilisateur_id")
     )
     private List<Utilisateur> utilisateurs;
 }

@@ -29,7 +29,6 @@ public class Utilisateur {
 
     private String username;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "event")
-    private List<Event> events;
-
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "utilisateurs")
+    private List<Evenement> evenements;
 }
